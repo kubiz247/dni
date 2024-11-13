@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+const DateDifferenceCalculator = () => {
+  const [result, setResult] = useState('');
+
+  const calculateDifference = () => {
+    const startDate = new Date('1900-03-23');
+    const currentDate = new Date();
+
+    let years = currentDate.getFullYear() - startDate.getFullYear();
+    let months = currentDate.getMonth() - startDate.getMonth();
+    let days = currentDate.getDate() - startDate.getDate();
+
+    if (days < 0) {
+      months -= 1;
+      days += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+
+    setResult(`Od dnia 23.03.1900 do dnia dzisiejszego minęło: ${days} dni, ${months} miesięcy oraz ${years} lat`);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <button onClick={calculateDifference}>Oblicz</button>
+        {result && <p>{result}</p>}
+      </div>
   );
-}
+};
 
-export default App;
+export default DateDifferenceCalculator;
